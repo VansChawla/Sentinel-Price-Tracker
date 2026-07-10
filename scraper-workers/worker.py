@@ -1,3 +1,5 @@
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 import requests
 from bs4 import BeautifulSoup
@@ -7,6 +9,20 @@ import pika
 import json
 
 load_dotenv()
+
+class DummyHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Python Worker is alive!")
+
+def run_dummy_server():
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(("0.0.0.0", port), DummyHandler)
+    server.serve_forever()
+
+# Start the dummy web server in the background
+threading.Thread(target=run_dummy_server, daemon=True).start()
 
 # Connect to the exact same PostgreSQL database
 conn = psycopg2.connect(
