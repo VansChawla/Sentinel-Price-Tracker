@@ -31,7 +31,7 @@ router.post('/register', async (req, res) => {
             [email, bcryptPassword]
         );
 
-        const jwtToken = jwt.sign({ user_id: newUser.rows[0].id }, process.env.JWT_SECRET, { expiresIn: '1hr' });
+        const jwtToken = jwt.sign({ user_id: newUser.rows[0].id }, process.env.JWT_SECRET);
 
         res.json({ token: jwtToken});
     } catch (error) {
