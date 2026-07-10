@@ -22,11 +22,10 @@ app.use(express.json()); // Allows us to parse JSON bodies
 
 // Database Connection Pool
 const pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false // Supabase requires this for cloud connections!
+    }
 });
 
 // Test the Database Connection
