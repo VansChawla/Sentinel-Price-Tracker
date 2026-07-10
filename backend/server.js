@@ -16,7 +16,13 @@ const io = new Server(server, {
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173', 
+    'https://sentinel-price-tracker.vercel.app'
+  ],
+  credentials: true
+}));
 app.use(express.json()); // Allows us to parse JSON bodies
 
 
